@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b1a4ef1d08d5946a3727184ec808c4, type: 3}
+  m_Name: Dash
+  m_EditorClassIdentifier: 
+  abilityTag:
+    tagName: Ability.Dash
+  displayName: Dash
+  icon: {fileID: 0}
+  description: Quick directional dash for evasion and mobility.
+  requireTags:
+    rootNode:
+      queryType: 3
+      tag:
+        tagName: 
+      children: []
+  blockedByTags:
+    rootNode:
+      queryType: 3
+      tag:
+        tagName: 
+      children: []
+  grantTagsWhileActive: []
+  costAttribute: {fileID: 0}
+  costAmount: 0
+  cooldown: 0.5
+  cooldownTag:
+    tagName: 
+  effectsOnActivate: []
+  effectsOnEnd: []
+  dashDistance: 6
+  dashDuration: 0.15
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  useInputDirection: 1
+  backwardOnNoInput: 0
+  ignoreGravity: 1
+  preserveYVelocity: 0
+  canDashInAir: 1
+  grantIFrames: 1
+  iFrameTag:
+    tagName: 
