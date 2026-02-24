@@ -62,11 +62,17 @@ namespace Features.Dialogue
 
             // Convert screen point to anchored position
             Canvas canvas = anchorsRoot.GetComponentInParent<Canvas>();
-            RectTransform canvasRect = canvas.transform as RectTransform;
+            if (canvas == null)
+            {
+                Debug.LogError("DialogueAnchorFollower: no Canvas found in parent hierarchy.");
+                return;
+            }
 
+            RectTransform canvasRect = canvas.transform as RectTransform;
             if (canvasRect == null)
             {
-                Debug.LogError("DialogueAnchorFollower: canvasRect not assigned.");
+                Debug.LogError("DialogueAnchorFollower: canvas RectTransform not found.");
+                return;
             }
 
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
