@@ -94,8 +94,15 @@ public class PlayerController : MonoBehaviour
             Debug.Log("[PlayerController] NPC entered");
             // Get the DialogueController in its parent
             DialogueController npcDialogueController = other.gameObject.GetComponentInParent<DialogueController>();
-            npcDialogueController.Show("Hi", 2.5f);
-            Debug.Log("[PlayerController] Showing dialogue");
+            if (npcDialogueController != null)
+            {
+                npcDialogueController.Show("Hi", 2.5f);
+                Debug.Log("[PlayerController] Showing dialogue");
+            }
+            else
+            {
+                Debug.LogWarning("[PlayerController] No DialogueController found on NPC or its parents");
+            }
         }
     }
 
