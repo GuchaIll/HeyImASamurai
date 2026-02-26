@@ -19,13 +19,13 @@ MonoBehaviour:
   description: Quick directional dash for evasion and mobility.
   requireTags:
     rootNode:
-      queryType: 3
+      queryType: 2
       tag:
         tagName: 
       children: []
   blockedByTags:
     rootNode:
-      queryType: 3
+      queryType: 2
       tag:
         tagName: 
       children: []

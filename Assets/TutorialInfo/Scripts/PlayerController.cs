@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float runSpeed = 6.5f;
     [SerializeField] float acceleration = 30f;
     [SerializeField] float jumpForce = 5f;
+    [SerializeField] float turnSpeed = 12f;
 
     [Header("Direction Reference")]
     [SerializeField] MoveReferenceMode referenceMode = MoveReferenceMode.World;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float groundCheckDistance = 1.1f;
 
     private GAS_AbilitySystemComponent gas;
+    private Player_Animator_Manager animatorManager;
 
     Rigidbody rb;
 
@@ -39,12 +41,16 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.constraints =
             RigidbodyConstraints.FreezeRotationX |
+            RigidbodyConstraints.FreezeRotationY |
             RigidbodyConstraints.FreezeRotationZ;
 
         // Make sure this is set on the Rigidbody in Inspector too
         // rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         gas = GetComponent<GAS_AbilitySystemComponent>();
+        animatorManager = GetComponent<Player_Animator_Manager>();
+        if (animatorManager == null)
+            animatorManager = GetComponentInChildren<Player_Animator_Manager>();
     }
 
     void Start()
@@ -92,6 +98,25 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector3(smoothedPlanar.x, currentVel.y, smoothedPlanar.z);
 
+        // Rotate to face movement direction — but only when NOT moving backward.
+        // Moving backward with LookRotation causes a 180° Slerp flip which is unstable.
+        if (moveDir.sqrMagnitude > 0.0001f)
+        {
+            float forwardDot = Vector3.Dot(transform.forward, moveDir.normalized);
+            if (forwardDot > -0.1f) // forward or lateral — safe to rotate
+            {
+                Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, turnSpeed * Time.fixedDeltaTime));
+            }
+        }
+
+        // Drive animator with movement relative to character facing so backward input
+        // plays the walk-back animation instead of flipping the character.
+        if (animatorManager != null)
+        {
+            Vector3 localMove = transform.InverseTransformDirection(moveDir);
+            animatorManager.UpdateAnimatorValues(localMove.x, localMove.z);
+        }
     }
 
     Vector3 GetMoveDirection(Vector2 input)
